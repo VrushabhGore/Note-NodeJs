@@ -4,13 +4,32 @@ const fs = require('fs');
 const _ = require('lodash');
 const yargs = require('yargs');
 
+const titleoptions = {
+  describe: 'Title of the note',
+  demand: true,
+  alias: 't'
+}
+
+const bodyOptions = {
+  describe: 'Body of the note',
+  demand: true,
+  alias: 'b'
+}
+
+
 const notes = require('./notes.js');
-const argv = yargs.argv;
+const argv = yargs
+.command('add','Add a new note',{
+  title:titleoptions,
+  body:bodyOptions
+})
+.command('list','List all notes')
+.command('read','Read a note',{  title:titleoptions})
+.command('remove','Remove a note',{  title:titleoptions})
+.help()
+.argv;
 
 var command = argv._[0]
-console.log("Command: "+ command);
-console.log('Yargs', argv);
-var print
 
 //Adding note here
 if(command === 'add'){
@@ -23,7 +42,11 @@ if(command === 'add'){
   }
 //Listing out all the notes here
 }else if(command === 'list') {
-  notes.getAll(argv.title, argv.body);
+  var allnotes =notes.getAll();
+  console.log(`Priting ${allnotes.length} note(s).`);
+  allnotes.forEach((note) => {
+    notes.logNote(note);
+  }) ;
 
   //Removing all the notes here
 }else if(command === 'remove') {
