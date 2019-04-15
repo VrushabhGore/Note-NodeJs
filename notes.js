@@ -16,7 +16,7 @@ var fetchNotes = () => {
 var saveNote = (notes) => {
   fs.writeFileSync('notes-data.json',JSON.stringify(notes));
 }
-
+//This function is used to add note in the JSON file
 var addNote = (title,body) => {
   var notes =fetchNotes();
   var note = {
@@ -34,14 +34,16 @@ var addNote = (title,body) => {
 };
 
 var getAll= () =>{
-  console.log("Getting all notes");
+return fetchNotes();
 };
-
+//This function reads a single note with the use of title
 var readAll= (title) =>{
  var notes = fetchNotes();
  var filterednotes = notes.filter((note) => note.title === title);
  return filterednotes[0];
 };
+
+//This function removes a single note with the use of remove
 var removeAll= (title) =>{
   var notes = fetchNotes();
   var filterednotes = notes.filter((note) => note.title != title);
